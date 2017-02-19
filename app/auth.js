@@ -106,17 +106,17 @@ export class Auth extends Component {
     });
   }
 
-  _onSignup(firstName, lastName, email, password) {
-      // Sign up
-      alert(firstName);
+  _onSignup() {
+    // Sign up
+    alert(firstName);
   }
 
   _onSwitch(comp) {
-      if (comp.state.mode === Login) {
-        comp.setState({mode: Signup});
-      } else if (comp.state.mode === Signup) {
-        comp.setState({mode: Login});
-      }
+    if (comp.state.mode === Login) {
+      comp.setState({mode: Signup});
+    } else if (comp.state.mode === Signup) {
+      comp.setState({mode: Login});
+    }
   }
 
   render() {

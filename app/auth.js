@@ -1,6 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import {View, Text, TextInput, Button} from 'react-native';
 
+import Backend from './backend';
+
 export class Login extends Component {
   constructor(props) {
     super(props);
@@ -95,8 +97,13 @@ export class Auth extends Component {
   }
 
   _onLogin(email, password) {
-      // We need to parse that data
-      alert(email);
+    // TODO Add a visual indicator for the time that we are making the request.
+    // Try to authenticate.
+    Backend.auth(email, password).then((cursor) => {
+      alert('token: ' + cursor.token);
+    }).catch((err) => {
+      alert('Failed to authenticate: ' + err);
+    });
   }
 
   _onSignup(firstName, lastName, email, password) {

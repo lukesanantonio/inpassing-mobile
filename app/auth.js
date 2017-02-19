@@ -1,3 +1,8 @@
+/*
+ * Copyright (C) 2017 Luke San Antonio Bialecki
+ * All rights reserved.
+ */
+
 import React, {Component, PropTypes} from 'react';
 import {View, Text, TextInput, Button} from 'react-native';
 

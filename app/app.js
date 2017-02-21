@@ -6,9 +6,9 @@
 'use strict';
 
 import React, {Component} from 'react';
-import {Text} from 'react-native';
 import {StackNavigator, NavigationActions} from 'react-navigation';
 
+import {OrgHome} from './home';
 import {Auth} from './auth';
 
 export class AuthScreen extends Component {
@@ -22,7 +22,7 @@ export class AuthScreen extends Component {
     var resetAction = NavigationActions.reset({
       index: 0,
       actions: [
-        NavigationActions.navigate({routeName: 'PassHome', cursor})
+        NavigationActions.navigate({routeName: 'OrgHome', cursor})
       ]
     });
     this.props.navigation.dispatch(resetAction);
@@ -33,31 +33,9 @@ export class AuthScreen extends Component {
   }
 }
 
-export class PassHome extends Component {
-  static navigationOptions = {
-    title: 'PassHome'
-  }
-
-  render() {
-    return <Text>{this.props.navigation.state.cursor.token}</Text>;
-  }
-}
-export class OrgHome extends Component {
-  static navigationOptions = {
-    title: 'OrgHome'
-  }
-
-  render() {
-    return <Text>OrgHome</Text>;
-  }
-}
-
 const App = StackNavigator({
   Auth: {
     screen: AuthScreen,
-  },
-  PassHome: {
-    screen: PassHome
   },
   OrgHome: {
     screen: OrgHome

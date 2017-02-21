@@ -116,16 +116,17 @@ export class Auth extends Component {
     alert(firstName);
   }
 
-  _onSwitch(comp) {
-    if (comp.state.mode === Login) {
-      comp.setState({mode: Signup});
-    } else if (comp.state.mode === Signup) {
-      comp.setState({mode: Login});
+  _onSwitch() {
+    if (this.state.mode === Login) {
+      this.setState({mode: Signup});
+    } else if (this.state.mode === Signup) {
+      this.setState({mode: Login});
     }
   }
 
   render() {
-    return <this.state.mode onLogin={this._onLogin} onSignup={this._onSignup}
-                            onSwitch={() => {this._onSwitch(this)} } />
+    return <this.state.mode onLogin={this._onLogin.bind(this)}
+                            onSignup={this._onSignup.bind(this)}
+                            onSwitch={this._onSwitch.bind(this)} />
   }
 }

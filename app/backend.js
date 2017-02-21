@@ -13,14 +13,46 @@ function makeUrl(endpt) {
   return BASE_URL + API_PREFIX + endpt;
 }
 
-class InPassingCursor {
+function makeBearerAuth(jwt) {
+  return 'Bearer ' + jwt;
+}
+
+export class User {
+  constructor(id, firstName, lastName, email) {
+    this.id = id;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+  }
+}
+
+export class InPassingCursor {
   constructor(token) {
     this.token = token;
+    this.cachedMe = null;
   }
 
-  cacheMe() {
+  async me() {
+    // If we already know who we are return that.
+    if (this.cachedMe !== null) return this.cachedMe;
+
     // Figure out who we are authenticated as.
-    const url = makeUrl(ME_ENDPOINT);
+    var res = await fetch(makeUrl(ME_ENDPOINT), {
+      headers: {'Authorization': makeBearerAuth(this.token)}
+    });
+
+    var usr_obj = await res.json();
+
+    if(usr_obj.id === undefined) {
+      // TODO: As soon as possible, check for the err field instead of checking
+      // for a missing id.
+
+      // Bad user
+      return null;
+    }
+    this.cachedMe = new User(usr_obj.id, usr_obj.first_name, usr_obj.last_name,
+                             usr_obj.email);
+    return this.cachedMe;
   }
 }
 

@@ -105,8 +105,10 @@ export class Auth extends Component {
     // TODO Add a visual indicator for the time that we are making the request.
     // Try to authenticate.
     Backend.auth(email, password).then((cursor) => {
-      alert('token: ' + cursor.token);
+      this.props.onAuth(cursor);
     }).catch((err) => {
+      // Just notify the user for now, maybe later we'll add some red text to
+      // the top of the screen or something.
       alert('Failed to authenticate: ' + err);
     });
   }
@@ -129,4 +131,8 @@ export class Auth extends Component {
                             onSignup={this._onSignup.bind(this)}
                             onSwitch={this._onSwitch.bind(this)} />
   }
+}
+
+Auth.propTypes = {
+  onAuth: PropTypes.func.isRequired,
 }

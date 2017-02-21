@@ -3,6 +3,8 @@
  * All rights reserved.
  */
 
+'use strict';
+
 const BASE_URL = 'http://159.203.130.135';
 const API_PREFIX = '/api/v1/'
 

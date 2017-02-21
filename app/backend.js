@@ -7,7 +7,7 @@ const BASE_URL = 'http://159.203.130.135';
 const API_PREFIX = '/api/v1/'
 
 const AUTH_ENDPOINT = 'users/auth'
-const ME_ENDPOINT = 'me'
+const ME_ENDPOINT = 'users/me'
 
 function makeUrl(endpt) {
   return BASE_URL + API_PREFIX + endpt;

@@ -4,17 +4,10 @@
  * @flow
  */
 
-import React, { Component } from 'react';
 import {
   AppRegistry,
 } from 'react-native';
 
-import {Auth} from './app/auth';
+import App from './app/app';
 
-export default class InPassingMobile extends Component {
-  render() {
-    return <Auth />
-  }
-}
-
-AppRegistry.registerComponent('InPassingMobile', () => InPassingMobile);
+AppRegistry.registerComponent('InPassingMobile', () => App);

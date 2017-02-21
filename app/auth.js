@@ -111,7 +111,7 @@ export class Auth extends Component {
     });
   }
 
-  _onSignup() {
+  _onSignup(firstName, lastName, email, password) {
     // Sign up
     alert(firstName);
   }

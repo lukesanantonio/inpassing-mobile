@@ -14,6 +14,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  cardTitle: {
+    fontSize: 20, fontWeight: 'bold', color: 'black'
+  },
+  cardContent: {
+    fontSize: 16
   }
 });
 
@@ -40,10 +46,38 @@ export class OrgHome extends Component {
       return <ActivityIndicator style={styles.centered}
                                 animating={true}
                                 size={60} />;
+    } else {
+      // Show the current user
+      return (
+        <Container>
+          <Content>
+            {this.state.me.passes.map(this.renderCard)}
+          </Content>
+        </Container>
+      );
     }
-    // Show the current user
-    return (<Text>
-  Hello {this.state.me.firstName} {this.state.me.lastName} ({this.state.me.id})!
-    </Text>);
+  }
+  renderCard(pass) {
+    return (
+      <Card key={pass.id}>
+        <CardItem header button onPress={() => {alert('Hello')}}>
+          <Body style={{flex: 9, alignItems: 'stretch'}}>
+            <View>
+              <Text style={styles.cardTitle}>
+                High School
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.cardContent}>
+                {pass.spotNum}-{pass.stateId}
+              </Text>
+            </View>
+          </Body>
+          <Right style={{flex: 1}}>
+            <Icon name="arrow-forward"/>
+          </Right>
+        </CardItem>
+      </Card>
+    );
   }
 }

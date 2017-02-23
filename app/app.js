@@ -18,14 +18,8 @@ export class AuthScreen extends Component {
     }
   }
 
-  _onAuth(navigation, cursor) {
-    var resetAction = NavigationActions.reset({
-      index: 0,
-      actions: [
-        NavigationActions.navigate({routeName: 'OrgHome', cursor})
-      ]
-    });
-    this.props.navigation.dispatch(resetAction);
+  _onAuth(cursor) {
+    this.props.navigation.navigate('Home', {cursor});
   }
 
   render() {

@@ -19,8 +19,8 @@ export class OrgHome extends Component {
   }
   componentDidMount() {
     // Start requesting /me
-    var {cursor} = this.props.navigation.state;
-    if(cursor !== null) {
+    var {cursor} = this.props.navigation.state.params;
+    if(cursor) {
       cursor.me().then((user) => {
         this.setState({me: user});
       });

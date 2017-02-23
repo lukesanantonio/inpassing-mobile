@@ -107,7 +107,7 @@ export class Auth extends Component {
     // TODO Add a visual indicator for the time that we are making the request.
     // Try to authenticate.
     Backend.auth(email, password).then((cursor) => {
-      this.props.onAuth(this.props.navigation, cursor);
+      this.props.onAuth(cursor);
     }).catch((err) => {
       // Just notify the user for now, maybe later we'll add some red text to
       // the top of the screen or something.

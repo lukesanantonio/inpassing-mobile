@@ -42,13 +42,21 @@ const styles = StyleSheet.create({
 export class PassView extends Component {
   render() {
     var {pass} = this.props.navigation.state.params;
-    return <Text>Pass ID {pass.id}</Text>;
+    return (
+      <View style={{flex: 1}}>
+        <Text>Pass ID {pass.id}</Text>
+      </View>
+    );
   }
 }
 
 export class OrgView extends Component {
   render() {
-    return <Text>I'm an org</Text>;
+    return (
+      <View style={{flex: 1}}>
+        <Text>I'm an org</Text>
+      </View>
+    );
   }
 }
 
@@ -60,7 +68,11 @@ export class OrgHome extends Component {
   }
 
   render() {
-    return <Text>Hello</Text>;
+    return (
+      <View style={{flex: 1}}>
+        <Text>Hello</Text>
+      </View>
+    );
   }
 }
 

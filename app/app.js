@@ -6,6 +6,7 @@
 'use strict';
 
 import React, {Component} from 'react';
+import {View} from 'react-native';
 import {StackNavigator, TabNavigator} from 'react-navigation';
 
 import {PassHome, OrgHome, PassView, OrgView} from './home';
@@ -38,7 +39,12 @@ export class AuthScreen extends Component {
   }
 
   render() {
-    return <Auth onAuth={this._onAuth.bind(this)} />;
+    // The View wrapper is a quick-fix for a layout bug in react-navigation.
+    return (
+      <View style={{flex: 1}}>
+        <Auth onAuth={this._onAuth.bind(this)} />
+      </View>
+    );
   }
 }
 

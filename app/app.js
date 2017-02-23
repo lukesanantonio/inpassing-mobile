@@ -6,10 +6,25 @@
 'use strict';
 
 import React, {Component} from 'react';
-import {StackNavigator, NavigationActions} from 'react-navigation';
+import {StackNavigator, TabNavigator} from 'react-navigation';
 
-import {OrgHome} from './home';
+import {PassHome, OrgHome, PassView, OrgView} from './home';
 import {Auth} from './auth';
+
+const HomeNavigator = TabNavigator({
+  PassHome: {
+    screen: PassHome
+  },
+  OrgHome: {
+    screen: OrgHome
+  }
+});
+
+HomeNavigator.navigationOptions = {
+  header: {
+    visible: false,
+  }
+}
 
 export class AuthScreen extends Component {
   static navigationOptions = {
@@ -31,8 +46,14 @@ const App = StackNavigator({
   Auth: {
     screen: AuthScreen,
   },
-  OrgHome: {
-    screen: OrgHome
+  Home: {
+    screen: HomeNavigator
+  },
+  PassView: {
+    screen: PassView
+  },
+  OrgView: {
+    screen: OrgView
   }
 });
 

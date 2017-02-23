@@ -6,8 +6,24 @@
 'use strict';
 
 import React, {Component} from 'react';
-import {Text, Navigator} from 'react-native';
-import {Auth} from './auth';
+import {
+  Text,
+  ActivityIndicator,
+  StyleSheet,
+  View
+} from 'react-native';
+
+import {
+  Container,
+  Content,
+  Card,
+  CardItem,
+  Body,
+  Right,
+  Icon
+} from 'native-base';
+
+import {Pass} from './backend';
 
 const styles = StyleSheet.create({
   centered: {
@@ -23,7 +39,37 @@ const styles = StyleSheet.create({
   }
 });
 
+export class PassView extends Component {
+  render() {
+    return <Text>I'm viewing a pass</Text>;
+  }
+}
+
+export class OrgView extends Component {
+  render() {
+    return <Text>I'm an org</Text>;
+  }
+}
+
 export class OrgHome extends Component {
+  static navigationOptions = {
+    tabBar: {
+      label: "Organizations"
+    }
+  }
+
+  render() {
+    return <Text>Hello</Text>;
+  }
+}
+
+export class PassHome extends Component {
+  static navigationOptions = {
+    tabBar: {
+      label: "Passes"
+    }
+  }
+
   constructor(props) {
     super(props);
 

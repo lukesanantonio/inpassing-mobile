@@ -9,6 +9,14 @@ import React, {Component} from 'react';
 import {Text, Navigator} from 'react-native';
 import {Auth} from './auth';
 
+const styles = StyleSheet.create({
+  centered: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+});
+
 export class OrgHome extends Component {
   constructor(props) {
     super(props);
@@ -29,7 +37,9 @@ export class OrgHome extends Component {
   render() {
     if (this.state.me === null) {
       // Show a spinner
-      return <Text>Loading...</Text>;
+      return <ActivityIndicator style={styles.centered}
+                                animating={true}
+                                size={60} />;
     }
     // Show the current user
     return (<Text>

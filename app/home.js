@@ -41,7 +41,8 @@ const styles = StyleSheet.create({
 
 export class PassView extends Component {
   render() {
-    return <Text>I'm viewing a pass</Text>;
+    var {pass} = this.props.navigation.state.params;
+    return <Text>Pass ID {pass.id}</Text>;
   }
 }
 
@@ -97,16 +98,21 @@ export class PassHome extends Component {
       return (
         <Container>
           <Content>
-            {this.state.me.passes.map(this.renderCard)}
+            {this.state.me.passes.map(p => this.renderCard(p))}
           </Content>
         </Container>
       );
     }
   }
+
+  _onPressPass(pass) {
+    this.props.navigation.navigate('PassView', {pass});
+  }
+
   renderCard(pass) {
     return (
       <Card key={pass.id}>
-        <CardItem header button onPress={() => {alert('Hello')}}>
+        <CardItem header button onPress={() => {this._onPressPass(pass)}}>
           <Body style={{flex: 9, alignItems: 'stretch'}}>
             <View>
               <Text style={styles.cardTitle}>

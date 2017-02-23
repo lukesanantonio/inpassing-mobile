@@ -133,11 +133,11 @@ export class InPassingCursor {
 
   async _getOrgById(orgId) {
     var res = await fetch(makeUrl('orgs/' + orgId));
-    var org_obj = await res.json();
-    if(org_obj.id === undefined) {
+    var orgObj = await res.json();
+    if(orgObj.id === undefined) {
       return null;
     }
-    return Org.fromApiObj(org_obj);
+    return Org.fromApiObj(orgObj);
   }
 
   getOrgById(orgId) {

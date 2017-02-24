@@ -10,7 +10,7 @@ import {
   Text,
   ActivityIndicator,
   StyleSheet,
-  View
+  View,
 } from 'react-native';
 
 import {

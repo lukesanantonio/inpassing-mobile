@@ -132,7 +132,9 @@ export class InPassingCursor {
   }
 
   async _getOrgById(orgId) {
-    var res = await fetch(makeUrl('orgs/' + orgId));
+    var res = await fetch(makeUrl('orgs/' + orgId), {
+      headers: {'Authorization': makeBearerAuth(this.token)}
+    });
     var orgObj = await res.json();
     if(orgObj.id === undefined) {
       return null;

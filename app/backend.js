@@ -43,17 +43,24 @@ export class Daystate {
 }
 
 export class Pass {
-  constructor(id, orgId, ownerId, stateId, spotNum) {
+  constructor(id, orgId, ownerId, requestedStateId, requestedSpotNum,
+              requestTime, assignedStateId, assignedSpotNum, assignedTime) {
     this.id = id;
     this.orgId = orgId;
     this.ownerId = ownerId;
-    this.stateId = stateId;
-    this.spotNum = spotNum;
+    this.requestedStateId = requestedStateId;
+    this.requestedSpotNum = requestedSpotNum;
+    this.requestTime = requestTime;
+    this.assignedStateId = assignedStateId;
+    this.assignedSpotNum = assignedSpotNum;
+    this.assignedTime = assignedTime;
   }
 
   static fromApiObj(obj) {
-    return new Pass(obj.id, obj.org_id, obj.owner_id, obj.state_id,
-                    obj.spot_num);
+    return new Pass(obj.id, obj.org_id, obj.owner_id, obj.requested_state_id,
+                    obj.requested_spot_num, obj.request_time,
+                    obj.assigned_state_id, obj.assigned_spot_num,
+                    obj.assigned_time);
   }
 }
 

@@ -16,12 +16,9 @@ import {
 import {
   Container,
   Content,
-  Card,
-  CardItem,
-  Body,
-  Right,
-  Icon
 } from 'native-base';
+
+import ClickCard from './views/ClickCard';
 
 import {Pass} from './backend';
 import {PassView} from './pass-view';
@@ -31,14 +28,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  cardBody: {
-    flex: 15,
-    flexDirection: 'row',
-    alignItems: 'stretch',
-  },
-  cardIcon: {
-    flex: 1,
   },
   cardOrg: {
     fontSize: 16,
@@ -56,9 +45,6 @@ const styles = StyleSheet.create({
     flex: 2,
   }
 });
-
-const style_cardBody = StyleSheet.flatten(styles.cardBody);
-const style_cardIcon = StyleSheet.flatten(styles.cardIcon);
 
 export class OrgView extends Component {
   render() {
@@ -148,25 +134,19 @@ export class PassHome extends Component {
 
   renderCard(pass) {
     return (
-      <Card key={pass.id}>
-        <CardItem header button onPress={() => {this._onPressPass(pass)}}>
-          <Body style={style_cardBody}>
-            <View style={styles.cardSpotContainer}>
-              <Text style={styles.cardSpot}>
-                {pass.spotString()}
-              </Text>
-            </View>
-            <View style={styles.cardOrgContainer}>
-              <Text style={styles.cardOrg}>
-                {pass.org.name}
-              </Text>
-            </View>
-          </Body>
-          <Right style={style_cardIcon}>
-            <Icon name="arrow-forward"/>
-          </Right>
-        </CardItem>
-      </Card>
+      <ClickCard style={styles.passCard} key={pass.id}
+                 onPress={() => this._onPressPass(pass)}>
+        <View style={styles.cardSpotContainer}>
+          <Text style={styles.cardSpot}>
+            {pass.spotString()}
+          </Text>
+        </View>
+        <View style={styles.cardOrgContainer}>
+          <Text style={styles.cardOrg}>
+            {pass.org.name}
+          </Text>
+        </View>
+      </ClickCard>
     );
   }
 }

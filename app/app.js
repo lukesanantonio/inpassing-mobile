@@ -8,7 +8,8 @@
 import React, {Component} from 'react';
 import {StackNavigator, TabNavigator} from 'react-navigation';
 
-import {PassHome, OrgHome, PassView, OrgView} from './home';
+import {PassHome, OrgHome, OrgView} from './home';
+import {PassView} from './pass-view';
 import {Auth} from './auth';
 
 const HomeNavigator = TabNavigator({

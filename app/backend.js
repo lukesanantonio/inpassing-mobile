@@ -47,13 +47,26 @@ export class Pass {
               requestTime, assignedStateId, assignedSpotNum, assignedTime) {
     this.id = id;
     this.orgId = orgId;
+
     this.ownerId = ownerId;
+
     this.requestedStateId = requestedStateId;
+    this.assignedStateId = assignedStateId;
+
     this.requestedSpotNum = requestedSpotNum;
     this.requestTime = requestTime;
-    this.assignedStateId = assignedStateId;
+
     this.assignedSpotNum = assignedSpotNum;
     this.assignedTime = assignedTime;
+
+    // Not resolved yet
+    this.org = null;
+    this.requestedState = null;
+    this.assignedState = null;
+
+    // We are intentionally *not* resolving the owner because they currently
+    // hold the reference to the passes so we don't want to make circular
+    // dependencies.
   }
 
   static fromApiObj(obj) {
@@ -61,6 +74,70 @@ export class Pass {
                     obj.requested_spot_num, obj.request_time,
                     obj.assigned_state_id, obj.assigned_spot_num,
                     obj.assigned_time);
+  }
+
+  resolve(cursor) {
+    return Promise.all([
+      this.resolveOrg(cursor),
+      this.resolveAssignedState(cursor),
+      this.resolveRequestedState(cursor),
+    ]).then(() => this);
+  }
+
+  resolveOrg(cursor) {
+    return cursor.getOrgById(this.orgId).then((org) => {
+      this.org = org;
+      return this;
+    });
+  }
+  resolveAssignedState(cursor) {
+    return cursor.getDaystateById(this.orgId, this.assignedStateId).then(
+      (ds) => {
+        this.assignedState = ds;
+        return this;
+      }
+    );
+  }
+  resolveRequestedState(cursor) {
+    return cursor.getDaystateById(this.orgId, this.requestedStateId).then(
+      (ds) => {
+        this.requestedState = ds;
+        return this;
+      }
+    );
+  }
+
+  verified() {
+    return !!this.assignedTime;
+  }
+  pending() {
+    return !this.verified();
+  }
+
+  spotString() {
+    let stateStr = '';
+    let spotNum = '';
+    if(this.verified()) {
+      // Set spotnum
+      spotNum = this.assignedSpotNum.toString();
+
+      // If we've resolved the assigned daystate
+      if(this.assignedState) {
+        stateStr = this.assignedState.identifier;
+      } else {
+        stateStr = this.assignedStateId + ' (ID)';
+      }
+    } else {
+      spotNum = this.requestedSpotNum.toString();
+
+      if(this.requestedState) {
+        stateStr = this.requestedState.identifier + ' (Pending)';
+      } else {
+        stateStr = this.requestedStateId + ' (ID, Pending)';
+      }
+    }
+
+    return spotNum + '-' + stateStr;
   }
 }
 

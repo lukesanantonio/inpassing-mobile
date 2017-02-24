@@ -39,10 +39,18 @@ const styles = StyleSheet.create({
   }
 });
 
+// TODO: Put this in a pass util somewhere
+function passIsValidated(pass) {
+  return !!pass.assignedTime;
+}
+function passIsPending(pass) {
+  return !pass.assignedTime;
+}
+
 export class PassView extends Component {
   render() {
-    var {pass} = this.props.navigation.state.params;
-    return <Text>Pass ID {pass.id}</Text>;
+    var {resolvedPass} = this.props.navigation.state.params;
+    return <Text>Pass ID {resolvedPass.pass.id}</Text>;
   }
 }
 
@@ -75,7 +83,8 @@ export class PassHome extends Component {
     super(props);
 
     this.state = {
-      me: null
+      me: null,
+      resolvedPasses: {},
     };
   }
   componentDidMount() {
@@ -84,6 +93,29 @@ export class PassHome extends Component {
     if(cursor) {
       cursor.me().then((user) => {
         this.setState({me: user});
+        return user.passes;
+      }).then((passes) => {
+        passes.forEach((pass) => {
+          // Resolve the org name, and both daystates.
+          // If one of the daystates is undefined, we will get null back.
+          Promise.all([
+            cursor.getOrgById(pass.orgId),
+            cursor.getDaystateById(pass.orgId, pass.assignedStateId),
+            cursor.getDaystateById(pass.orgId, pass.requestedStateId),
+          ]).then((values) => {
+            var resolvedPasses = this.state.resolvedPasses;
+
+            // This technically changes state anyway, so beware of race
+            // conditions.
+            resolvedPasses[pass.id] = {
+              pass,
+              org: values[0],
+              assignedState: values[1],
+              requestedState: values[2],
+            }
+            this.setState({resolvedPasses});
+          });
+        });
       });
     }
   }
@@ -98,31 +130,51 @@ export class PassHome extends Component {
       return (
         <Container>
           <Content>
-            {this.state.me.passes.map(p => this.renderCard(p))}
+            {Object.keys(this.state.resolvedPasses).map(passId => {
+               var pass = this.state.resolvedPasses[passId];
+               return this.renderCard(pass)
+             })}
           </Content>
         </Container>
       );
     }
   }
 
-  _onPressPass(pass) {
-    this.props.navigation.navigate('PassView', {pass});
+  _onPressPass(resolvedPass) {
+    this.props.navigation.navigate('PassView', {resolvedPass});
   }
 
-  renderCard(pass) {
+  _renderPassDescription(resolvedPass) {
+    if(passIsValidated(resolvedPass.pass)) {
+      // Render a regular pass that the user owns
+      return (
+        <Text style={styles.cardContent}>
+          {resolvedPass.pass.assignedSpotNum}-{resolvedPass.assignedState.identifier}
+        </Text>
+      );
+    }
+    else {
+      // Render a pending pass
+      return (
+        <Text style={styles.cardContent}>
+          {resolvedPass.pass.requestedSpotNum}-{resolvedPass.requestedState.identifier} (Pending)
+        </Text>
+      );
+    }
+  }
+
+  renderCard(resolvedPass) {
     return (
-      <Card key={pass.id}>
-        <CardItem header button onPress={() => {this._onPressPass(pass)}}>
+      <Card key={resolvedPass.pass.id}>
+        <CardItem header button onPress={() => {this._onPressPass(resolvedPass)}}>
           <Body style={{flex: 9, alignItems: 'stretch'}}>
             <View>
               <Text style={styles.cardTitle}>
-                High School
+                {resolvedPass.org.name}
               </Text>
             </View>
             <View>
-              <Text style={styles.cardContent}>
-                {pass.spotNum}-{pass.stateId}
-              </Text>
+              {this._renderPassDescription(resolvedPass)}
             </View>
           </Body>
           <Right style={{flex: 1}}>

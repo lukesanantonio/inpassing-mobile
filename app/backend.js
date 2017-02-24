@@ -30,6 +30,18 @@ export class Org {
   }
 }
 
+export class Daystate {
+  constructor(id, ident, greeting) {
+    this.id = id;
+    this.identifier = ident;
+    this.greeting = greeting;
+  }
+
+  static fromApiObj(obj) {
+    return new Daystate(obj.id, obj.identifier, obj.greeting);
+  }
+}
+
 export class Pass {
   constructor(id, orgId, ownerId, stateId, spotNum) {
     this.id = id;
@@ -100,6 +112,7 @@ export class InPassingCursor {
     this.token = token;
     this.userCache = new ResourceCache(this._getUser.bind(this));
     this.orgCache = new ResourceCache(this._getOrgById.bind(this));
+    this.orgDaystateCache = {}
   }
 
   async _getUser(id) {
@@ -145,6 +158,35 @@ export class InPassingCursor {
   getOrgById(orgId) {
     // Returns a promise to the resource
     return this.orgCache.getResource(orgId);
+  }
+
+  async _getDaystateById(orgId, daystateId) {
+    const url = makeUrl('orgs/' + orgId + '/daystates/' + daystateId);
+    var res = await fetch(url, {
+      headers: {'Authorization': makeBearerAuth(this.token)}
+    });
+    var daystateObj = await res.json();
+    if(daystateObj.id === undefined) {
+      return null;
+    }
+    return Daystate.fromApiObj(daystateObj);
+  }
+
+  getDaystateById(orgId, daystateId) {
+    // If we get an invalid ID return null.
+    if(!daystateId) {
+      return Promise.resolve(null);
+    }
+
+    if (!(orgId in this.orgDaystateCache)) {
+      // Add a daystate cache for this particular org by binding its ID to the
+      // callback we give the cache.
+      // TODO: Beware race conditions!
+      this.orgDaystateCache[orgId] = new ResourceCache((dsId) =>
+        this._getDaystateById(orgId, dsId)
+      );
+    }
+    return this.orgDaystateCache[orgId].getResource(daystateId);
   }
 }
 

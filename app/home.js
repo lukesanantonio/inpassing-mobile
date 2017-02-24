@@ -69,7 +69,8 @@ function passIsPending(pass) {
 
 export class PassView extends Component {
   render() {
-    var {resolvedPass} = this.props.navigation.state.params;
+    var resolvedPass = this.props.resolvedPass ||
+                       this.props.navigation.state.params.resolvedPass;
     return <Text>Pass ID {resolvedPass.pass.id}</Text>;
   }
 }
@@ -145,8 +146,15 @@ export class PassHome extends Component {
       return <ActivityIndicator style={styles.centered}
                                 animating={true}
                                 size={60} />;
+    } else if (Object.keys(this.state.resolvedPasses).length == 1) {
+      // If the user only has one pass, show it here
+      return Object.keys(this.state.resolvedPasses).map(passId => {
+        // This will be only called once
+        var pass = this.state.resolvedPasses[passId];
+        return <PassView resolvedPass={pass} />
+      })[0];
     } else {
-      // Show the current user
+      // Otherwise render them as cards
       return (
         <Container>
           <Content>

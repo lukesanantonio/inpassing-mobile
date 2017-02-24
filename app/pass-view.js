@@ -34,9 +34,6 @@ export class PassView extends Component {
     var pass = this.props.pass || this.props.navigation.state.params.pass;
     return (
       <View style={styles.container}>
-        <Text style={styles.spot}>
-          Spot {pass.spotString()}
-        </Text>
         <TouchableHighlight>
           <Text style={styles.orgName}>
             {pass.org.name}

@@ -31,13 +31,33 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  cardTitle: {
-    fontSize: 20, fontWeight: 'bold', color: 'black'
+  cardBody: {
+    flex: 15,
+    flexDirection: 'row',
+    alignItems: 'stretch',
   },
-  cardContent: {
-    fontSize: 16
+  cardIcon: {
+    flex: 1,
+  },
+  cardOrg: {
+    fontSize: 16,
+  },
+  cardOrgContainer: {
+    flex: 3,
+  },
+  cardSpot: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'black',
+    textAlign: 'left'
+  },
+  cardSpotContainer: {
+    flex: 2,
   }
 });
+
+const style_cardBody = StyleSheet.flatten(styles.cardBody);
+const style_cardIcon = StyleSheet.flatten(styles.cardIcon);
 
 // TODO: Put this in a pass util somewhere
 function passIsValidated(pass) {
@@ -148,7 +168,7 @@ export class PassHome extends Component {
     if(passIsValidated(resolvedPass.pass)) {
       // Render a regular pass that the user owns
       return (
-        <Text style={styles.cardContent}>
+        <Text style={styles.cardSpot}>
           {resolvedPass.pass.assignedSpotNum}-{resolvedPass.assignedState.identifier}
         </Text>
       );
@@ -156,7 +176,7 @@ export class PassHome extends Component {
     else {
       // Render a pending pass
       return (
-        <Text style={styles.cardContent}>
+        <Text style={styles.cardSpot}>
           {resolvedPass.pass.requestedSpotNum}-{resolvedPass.requestedState.identifier} (Pending)
         </Text>
       );
@@ -167,17 +187,17 @@ export class PassHome extends Component {
     return (
       <Card key={resolvedPass.pass.id}>
         <CardItem header button onPress={() => {this._onPressPass(resolvedPass)}}>
-          <Body style={{flex: 9, alignItems: 'stretch'}}>
-            <View>
-              <Text style={styles.cardTitle}>
+          <Body style={style_cardBody}>
+            <View style={styles.cardSpotContainer}>
+              {this._renderPassDescription(resolvedPass)}
+            </View>
+            <View style={styles.cardOrgContainer}>
+              <Text style={styles.cardOrg}>
                 {resolvedPass.org.name}
               </Text>
             </View>
-            <View>
-              {this._renderPassDescription(resolvedPass)}
-            </View>
           </Body>
-          <Right style={{flex: 1}}>
+          <Right style={style_cardIcon}>
             <Icon name="arrow-forward"/>
           </Right>
         </CardItem>

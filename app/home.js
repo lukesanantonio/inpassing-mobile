@@ -60,11 +60,22 @@ const style_cardBody = StyleSheet.flatten(styles.cardBody);
 const style_cardIcon = StyleSheet.flatten(styles.cardIcon);
 
 // TODO: Put this in a pass util somewhere
-function passIsValidated(pass) {
+function passIsVerified(pass) {
   return !!pass.assignedTime;
 }
 function passIsPending(pass) {
   return !pass.assignedTime;
+}
+
+// TODO: Make this a direct member of a resolvedPass object
+function resolvedPassSpotString(resolvedPass) {
+  if(passIsVerified(resolvedPass.pass)) {
+    return '' + resolvedPass.pass.assignedSpotNum + '-' +
+           resolvedPass.assignedState.identifier;
+  } else {
+    return '' + resolvedPass.pass.requestedSpotNum + '-' +
+    resolvedPass.requestedState.identifier + ' (Pending)'
+  }
 }
 
 export class PassView extends Component {
@@ -172,32 +183,15 @@ export class PassHome extends Component {
     this.props.navigation.navigate('PassView', {resolvedPass});
   }
 
-  _renderPassDescription(resolvedPass) {
-    if(passIsValidated(resolvedPass.pass)) {
-      // Render a regular pass that the user owns
-      return (
-        <Text style={styles.cardSpot}>
-          {resolvedPass.pass.assignedSpotNum}-{resolvedPass.assignedState.identifier}
-        </Text>
-      );
-    }
-    else {
-      // Render a pending pass
-      return (
-        <Text style={styles.cardSpot}>
-          {resolvedPass.pass.requestedSpotNum}-{resolvedPass.requestedState.identifier} (Pending)
-        </Text>
-      );
-    }
-  }
-
   renderCard(resolvedPass) {
     return (
       <Card key={resolvedPass.pass.id}>
         <CardItem header button onPress={() => {this._onPressPass(resolvedPass)}}>
           <Body style={style_cardBody}>
             <View style={styles.cardSpotContainer}>
-              {this._renderPassDescription(resolvedPass)}
+              <Text style={styles.cardSpot}>
+                {resolvedPassSpotString(resolvedPass)}
+              </Text>
             </View>
             <View style={styles.cardOrgContainer}>
               <Text style={styles.cardOrg}>

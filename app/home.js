@@ -55,12 +55,6 @@ const styles = StyleSheet.create({
 
 const style_borrowButton = StyleSheet.flatten(styles.borrowButton);
 
-export class OrgView extends Component {
-  render() {
-    return <Text>I'm an org</Text>;
-  }
-}
-
 export class OrgHome extends Component {
   static navigationOptions = {
     tabBar: {

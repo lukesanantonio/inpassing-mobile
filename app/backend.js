@@ -19,6 +19,14 @@ function makeBearerAuth(jwt) {
   return 'Bearer ' + jwt;
 }
 
+function formatDate(date) {
+  var day = date.getUTCDate();
+  var month = date.getUTCMonth() + 1;
+  var year = date.getUTCFullYear();
+
+  return year.toString() + '-' + month.toString() + '-' + day.toString();
+}
+
 export class Org {
   constructor(id, name) {
     this.id = id;
@@ -271,6 +279,37 @@ export class InPassingCursor {
       );
     }
     return this.orgDaystateCache[orgId].getResource(daystateId);
+  }
+
+  async lendPass(passId, datePayload) {
+    var res = await fetch(makeUrl('passes/' + passId.toString() + '/lend'), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': makeBearerAuth(this.token),
+      },
+      body: JSON.stringify(datePayload),
+    });
+
+    var json = await res.json();
+
+    if(json.msg) {
+      return Promise.reject(json.msg);
+    } else {
+      return Promise.resolve(json);
+    }
+  }
+
+  lendPassOnDate(passId, date) {
+    return this.lendPass(passId, {
+      date: formatDate(date),
+    });
+  }
+  lendPassOnDateRange(passId, startDate, endDate) {
+    return this.lendPass(passId, {
+      start_date: formatDate(startDate),
+      end_date: formatDate(endDate),
+    });
   }
 }
 

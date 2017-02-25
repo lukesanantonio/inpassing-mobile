@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   cardBody: {
     flex: 15,
     flexDirection: 'row',
-    alignItems: 'stretch',
+    alignItems: 'center',
   },
   cardIcon: {
     flex: 1,

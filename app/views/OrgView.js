@@ -31,6 +31,7 @@ export default class OrgView extends Component {
   }
 
   render() {
+    // TODO: Show a picture of the org.
     return (
       <Container>
         <Content>

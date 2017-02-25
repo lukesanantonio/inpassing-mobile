@@ -20,9 +20,9 @@ import {
 } from 'native-base';
 
 import ClickCard from './views/ClickCard';
+import PassView from './views/PassView';
 
 import {Pass} from './backend';
-import {PassView} from './pass-view';
 
 const styles = StyleSheet.create({
   centered: {

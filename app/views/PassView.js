@@ -6,19 +6,14 @@
 'use strict';
 
 import React, {Component} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {Text, StyleSheet} from 'react-native';
 import {
   Container,
   Content,
   Button,
-  Card,
-  CardItem,
-  Body,
-  Right,
-  Icon,
 } from 'native-base';
 
-import ClickCard from './views/ClickCard';
+import ClickCard from './ClickCard';
 
 const styles = StyleSheet.create({
   container: {
@@ -49,7 +44,7 @@ const styles = StyleSheet.create({
 const style_calendarRight = StyleSheet.flatten(styles.calendarRight);
 const style_calendarBody = StyleSheet.flatten(styles.calendarBody);
 
-export class PassView extends Component {
+export default class PassView extends Component {
   static navigationOptions = {
     title: (navigation) => {
       if(!navigation.state.params.pass) {

@@ -9,7 +9,7 @@ import React, {Component} from 'react';
 import {StackNavigator, TabNavigator} from 'react-navigation';
 
 import {PassHome, OrgHome, OrgView} from './home';
-import {PassView} from './pass-view';
+import PassView from './views/PassView';
 import {Auth} from './auth';
 
 const HomeNavigator = TabNavigator({

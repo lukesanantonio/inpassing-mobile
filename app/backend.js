@@ -281,6 +281,21 @@ export class InPassingCursor {
     return this.orgDaystateCache[orgId].getResource(daystateId);
   }
 
+  getOrgCurrentDaystate(orgId) {
+
+    // Reuse the code above by using current as the ID. Due to duck typing and
+    // string formatting the correct endpoint is queried. This will have the
+    // unintended effect of making the request twice (and storing it twice under
+    // different keys in the cache.
+
+    // TODO: We can make this better by returning the ID of the current daystate
+    // when querying the Org. I don't want to add this now because it makes it
+    // adds a redundancy that makes handling the request a lot more complex,
+    // assuming we want to be as efficient as possible.
+
+    return this.getDaystateById(orgId, 'current');
+  }
+
   async lendPass(passId, datePayload) {
     var res = await fetch(makeUrl('passes/' + passId.toString() + '/lend'), {
       method: 'POST',

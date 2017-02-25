@@ -22,6 +22,14 @@ export default class OrgView extends Component {
     }
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      greeting: null,
+    };
+  }
+
   getOrg() {
     return this.props.org || this.props.navigation.state.params.org;
   }
@@ -34,6 +42,16 @@ export default class OrgView extends Component {
     this.props.navigation.navigate('Calendar');
   }
 
+  componentDidMount() {
+    var cursor = this.getCursor();
+    cursor.getOrgCurrentDaystate(this.getOrg().id).then((ds) => {
+      this.setState({greeting: ds.greeting});
+    }).catch((err) => {
+      // Failed to get the current daystate.
+      this.setState({greeting: 'Failed to get the current daystate'});
+    });
+  }
+
   render() {
     // TODO: Show a picture of the org.
     return (
@@ -42,7 +60,7 @@ export default class OrgView extends Component {
           <ClickCard arrowText="Calendar"
                      onPress={() => this._onCalendarView()}>
             <Text>
-              Today is an A day
+              {this.state.greeting}
             </Text>
           </ClickCard>
         </Content>

@@ -26,6 +26,10 @@ export default class OrgView extends Component {
     return this.props.org || this.props.navigation.state.params.org;
   }
 
+  getCursor() {
+    return this.props.cursor || this.props.navigation.state.params.cursor;
+  }
+
   _onCalendarView() {
     this.props.navigation.navigate('Calendar');
   }

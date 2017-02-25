@@ -82,9 +82,14 @@ export class PassHome extends Component {
       resolvedPasses: {},
     };
   }
+
+  getCursor() {
+    return this.props.navigation.state.params.cursor;
+  }
+
   componentDidMount() {
     // Start requesting /me
-    var {cursor} = this.props.navigation.state.params;
+    var cursor = this.getCursor();
     if(cursor) {
       cursor.me().then((user) => {
         this.setState({me: user});
@@ -132,7 +137,10 @@ export class PassHome extends Component {
   }
 
   _onPressPass(pass) {
-    this.props.navigation.navigate('PassView', {pass});
+    this.props.navigation.navigate('PassView', {
+      cursor: this.getCursor(),
+      pass,
+    });
   }
 
   renderCard(pass) {

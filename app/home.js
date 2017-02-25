@@ -20,7 +20,6 @@ import {
 } from 'native-base';
 
 import ClickCard from './views/ClickCard';
-import PassView from './views/PassView';
 
 import {Pass} from './backend';
 
@@ -116,15 +115,12 @@ export class PassHome extends Component {
       return <ActivityIndicator style={styles.centered}
                                 animating={true}
                                 size={60} />;
-    } else if (Object.keys(this.state.resolvedPasses).length == 1) {
-      // If the user only has one pass, show it here
-      return Object.keys(this.state.resolvedPasses).map(passId => {
-        // This will be only called once
-        var pass = this.state.resolvedPasses[passId];
-        return <PassView pass={pass} />
-      })[0];
     } else {
-      // Otherwise render them as cards
+      // Render passes as cards. Originally, if there was one pass the pass view
+      // was rendered instead of this card list but that wouldn't allow the user
+      // to borrow a pass on the days that they can't use that one pass that
+      // they have. Maybe in the future we can check for this specifically and
+      // show a borrow button only when only one pass is being presented.
       return (
         <Container>
           <Content>

@@ -6,20 +6,48 @@
 'use strict';
 
 import React, {Component} from 'react';
-import {View, Text, TouchableHighlight, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
+import {
+  Container,
+  Content,
+  Button,
+  Card,
+  CardItem,
+  Body,
+  Right,
+  Icon,
+} from 'native-base';
+
+import ClickCard from './views/ClickCard';
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     alignItems: 'stretch',
   },
-  spot: {
-    fontSize: 30,
-    textAlign: 'center',
+  cardText: {
+    flex: 1,
+    fontSize: 16,
+    color: 'black',
   },
-  orgName: {
-
+  buttonText: {
+    color: 'white',
+  },
+  calendarRight: {
+    flexDirection: 'row-reverse',
+    alignItems: 'center',
+    padding: 3,
+  },
+  calendarBody: {
+    justifyContent: 'center',
+  },
+  nextUseDate: {
+    fontWeight: 'bold'
   },
 });
+
+const style_calendarRight = StyleSheet.flatten(styles.calendarRight);
+const style_calendarBody = StyleSheet.flatten(styles.calendarBody);
 
 export class PassView extends Component {
   static navigationOptions = {
@@ -30,16 +58,43 @@ export class PassView extends Component {
       return 'Spot ' + navigation.state.params.pass.spotString();
     }
   }
+
+  getPass() {
+    return this.props.pass || this.props.navigation.state.params.pass;
+  }
+
+  _onOrgPress() {
+    this.props.navigation.navigate('OrgView', {org: this.getPass()});
+  }
+
+  _onCalendarView() {
+  }
+
+  _onLend() {
+  }
+
   render() {
-    var pass = this.props.pass || this.props.navigation.state.params.pass;
+    var pass = this.getPass();
     return (
-      <View style={styles.container}>
-        <TouchableHighlight>
-          <Text style={styles.orgName}>
-            {pass.org.name}
-          </Text>
-        </TouchableHighlight>
-      </View>
+      <Container>
+        <Content>
+          <ClickCard arrowText="Details" onPress={() => this._onOrgPress()}>
+            <Text style={styles.cardText}>
+              {pass.org.name}
+            </Text>
+          </ClickCard>
+          <ClickCard arrowText="Calendar" onPress={() => this._onCalendarView()}>
+            <Text style={styles.cardText}>
+              Usable <Text style={styles.nextUseDate}>today</Text>
+            </Text>
+          </ClickCard>
+          <Button full onPress={() => this._onLend()}>
+            <Text style={styles.buttonText}>
+              Lend pass
+            </Text>
+          </Button>
+        </Content>
+      </Container>
     );
   }
 }

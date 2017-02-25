@@ -11,6 +11,7 @@ import {StackNavigator, TabNavigator} from 'react-navigation';
 import {PassHome, OrgHome} from './home';
 import PassView from './views/PassView';
 import OrgView from './views/OrgView';
+import CalendarView from './views/CalendarView';
 import {Auth} from './auth';
 
 const HomeNavigator = TabNavigator({
@@ -56,7 +57,10 @@ const App = StackNavigator({
   },
   OrgView: {
     screen: OrgView
-  }
+  },
+  Calendar: {
+    screen: CalendarView
+  },
 });
 
 export default App;

@@ -63,6 +63,7 @@ export default class PassView extends Component {
   }
 
   _onCalendarView() {
+    this.props.navigation.navigate('Calendar');
   }
 
   _onLend() {

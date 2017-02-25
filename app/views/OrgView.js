@@ -27,7 +27,7 @@ export default class OrgView extends Component {
   }
 
   _onCalendarView() {
-
+    this.props.navigation.navigate('Calendar');
   }
 
   render() {

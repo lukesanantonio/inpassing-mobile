@@ -28,21 +28,10 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
   },
-  calendarRight: {
-    flexDirection: 'row-reverse',
-    alignItems: 'center',
-    padding: 3,
-  },
-  calendarBody: {
-    justifyContent: 'center',
-  },
   nextUseDate: {
     fontWeight: 'bold'
   },
 });
-
-const style_calendarRight = StyleSheet.flatten(styles.calendarRight);
-const style_calendarBody = StyleSheet.flatten(styles.calendarBody);
 
 export default class PassView extends Component {
   static navigationOptions = {

@@ -59,7 +59,7 @@ export default class PassView extends Component {
   }
 
   _onOrgPress() {
-    this.props.navigation.navigate('OrgView', {org: this.getPass()});
+    this.props.navigation.navigate('OrgView', {org: this.getPass().org});
   }
 
   _onCalendarView() {

@@ -16,6 +16,7 @@ import {
 import {
   Container,
   Content,
+  Button,
 } from 'native-base';
 
 import ClickCard from './views/ClickCard';
@@ -43,8 +44,17 @@ const styles = StyleSheet.create({
   },
   cardSpotContainer: {
     flex: 2,
+  },
+  borrowButton: {
+    margin: 1,
+    marginTop: 2,
+  },
+  borrowButtonText: {
+    color: 'white',
   }
 });
+
+const style_borrowButton = StyleSheet.flatten(styles.borrowButton);
 
 export class OrgView extends Component {
   render() {
@@ -122,6 +132,9 @@ export class PassHome extends Component {
                var pass = this.state.resolvedPasses[passId];
                return this.renderCard(pass)
              })}
+            <Button block style={style_borrowButton}>
+              <Text style={styles.borrowButtonText}>Borrow a pass</Text>
+            </Button>
           </Content>
         </Container>
       );
